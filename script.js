@@ -33,8 +33,9 @@
 
 //ES6 way - CLASSES - Create a new Employee class that adds a new employee and console logs them
 // Goals:
+// ES6 way - CLASSES - Create a new Employee class that adds a new employee and console logs them
 
-
+// 1. Create a new Employee class with a constructor for Employee giving them a firstname, lastname, email, and birthdate
 class Employee {
   static employees = []; // Define employees array
 
@@ -62,7 +63,7 @@ class Employee {
 
   static addEmployee(firstName, lastName, email, birthdate, salary) {
     const newEmployee = new Employee(firstName, lastName, email, birthdate, salary);
-    Employee.employees.push(newEmployee); 
+    Employee.employees.push(newEmployee);
     return newEmployee;
   }
 
@@ -77,95 +78,40 @@ class Employee {
   }
 }
 
-// Create an Employee instance
+// 2. Instantiate (i.e. create a new instance) of an Employee with your info and save it to a const with your first name
 const Employee1 = new Employee("Stephanie", "Antonio", "stephanieantonio@utexas.edu", "07/14/03", "0");
+
+// 3. Console log your const and then try to console.log parts of the object
 console.log(Employee1);
 console.log(Employee1.getEmployee());
 
-
-//const Employee1 = new Employee("Stephanie", "Antonio", "stephanieantonio@utexas.edu", "07/14/03", "0")
-//console.log(Employee1)
-
-
-
-//define class, insatntiate class, console log 
-
-// 1. Create a new Employee class with a constructor for Employee giving them a firstname, lastname, email, and birthdate
-// 2. Instantiate (i.e. create a new instance) of an Employee with your info and save it to a const with your first name
-// 3. After step 2, console log your const and then try to console.log parts of the object
-// 4. Then create a const array that creates many "new Employee" objects and says to an and says to an array.  Console this object as a whole and parts of it
-
+// 4. Create a const array that creates many "new Employee" objects and saves them to an array. Console this object as a whole and parts of it
 const newEmployees = [
-  {firstName:"Bevo", lastName: " the Longhorn", email:"longhornmail.com", date: "02/06/25", salary: "89000"},
-]
+  { firstName: "Bevo", lastName: "the Longhorn", email: "longhornmail.com", date: "02/06/25", salary: "89000" },
+];
+console.log(newEmployees[0]);
 
-
-
-// 5. Add methods to your class to "getEmployees" which just returns all the fields in the object.
-console.log(newEmployees[0])
-
-
-
-
-//    Also add methods to addEmployee (this will be static) and a method to editEmployee
-//    Test your methods using JS
-
-Employee.addEmployee("Alice", "Brown", "alice@example.com", "03/03/93", "75000");
-Employee.addEmployee("Bob", "Smith", "bob@example.com", "05/10/90", "80000");
-
+// 5. Add methods to your class to "getEmployees" which returns all the fields in the object.
+// Also, add methods to addEmployee (static) and editEmployee. Test your methods using JS
+Employee.addEmployee("Bevo", "Burnt Orange", "bevo@example.com", "02/06/25", "75000");
+Employee.addEmployee("Bob", "Smith", "bob@example.com", "05/10/25", "80000");
+Employee.addEmployee("Jane", "Doe", "jane@example.com", "03/03/25", "75000");
 console.log(Employee.getEmployees());
 
-
-
-
-
-// 6. Try to get instances of your class object to display in the table.  You can set the innerhtml of the
-//    of the table to be empty and then replace it with the looped-through values of your object
-
-
-
-
-//Try to output 3 instances of your class object into the table
-
-//document.addEventListener("DOMContentLoaded", function () {
-  // Select the table body properly
- // const tableBody = document.querySelector("#employeeTable tbody");
-
- // if (!tableBody) {
-  //    console.error("Table body not found!");
-    //  return; // Stop execution if the table doesn't exist
-  //}
-
-  // Example employee array (Ensure employees exist before running the loop)
- 
-
-
-  // Check if tableBody exists
- // Select the table body properly
+// 6. Get instances of your class object to display in the table.
 const tableBody = document.getElementById("tableBody");
 
-// Check if tableBody exists
 if (!tableBody) {
     console.error("Error: Table body element not found!");
 } else {
-    // Clear existing rows in the table
     tableBody.innerHTML = "";
-
-    // Fetch employees from the Employee class
     const employees = Employee.getEmployees();
-
-    // Ensure employees array exists
     if (!Array.isArray(employees) || employees.length === 0) {
         console.warn("No employees to display.");
     } else {
-        // Populate the table
         employees.forEach(employee => {
-            // Fetch employee details
-            const details = employee.getEmployee(); // Correct method call
-            
-            console.log(details); // Debugging: Check if data is correct
-
-            // Create a new row
+            const details = employee.getEmployee();
+            console.log(details);
             const row = document.createElement("tr");
             row.innerHTML = `
                 <td>${details.firstName}</td>
@@ -173,33 +119,23 @@ if (!tableBody) {
                 <td>${details.email}</td>
                 <td>${details.birthdate}</td>
             `;
-
-            // Append the row to the table
             tableBody.appendChild(row);
         });
     }
 }
 
-
-
-
-///challenges
-
-//callbacks
+// Callbacks - Send Invoice
 function sendInvoice(clientName, callback) {
   console.log(`Generating invoice for ${clientName}...`);
   setTimeout(() => {
     callback(`Invoice sent to ${clientName}`);
   }, 1500);
 }
-
-// Example Usage
 sendInvoice("ABC Corp", (confirmation) => {
   console.log(confirmation);
 });
 
-//promises
-
+// Promises - Verify Payment
 function verifyPayment(orderTotal) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -211,33 +147,36 @@ function verifyPayment(orderTotal) {
     }, 1000);
   });
 }
+verifyPayment(3000).then(console.log).catch(console.error);
+verifyPayment(6000).then(console.log).catch(console.error);
 
-
-verifyPayment(3000)
-  .then(console.log)
-  .catch(console.error);
-
-verifyPayment(6000)
-  .then(console.log)
-  .catch(console.error);
-
-
-  //asynch await
-  async function processRefund(requestId) {
-    try {
-      console.log(`Processing refund request #${requestId}...`);
-  
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      console.log(`Refund verification complete for request #${requestId}`);
-  
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      console.log(`Payment reversal completed for request #${requestId}`);
-  
-      return `Refund complete for request #${requestId}`;
-    } catch (error) {
-      console.error(`Error processing refund #${requestId}:`, error);
-    }
+// Async/Await - Process Refund
+async function verifyRefund(requestId) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`Refund request #${requestId} verified`);
+    }, 1000);
+  });
+}
+async function reversePayment(requestId) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(`Payment reversal for request #${requestId} completed`);
+    }, 2000);
+  });
+}
+async function processRefund(requestId) {
+  try {
+    const verification = await verifyRefund(requestId);
+    console.log(verification);
+    const reversal = await reversePayment(requestId);
+    console.log(reversal);
+    return `Refund complete for request #${requestId}`;
+  } catch (error) {
+    console.error("Refund process failed:", error);
+    return `Refund failed for request #${requestId}`;
   }
+}
+processRefund(12345).then(console.log);
 
-  processRefund(789).then(console.log);
-  
+
